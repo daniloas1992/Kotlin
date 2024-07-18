@@ -1,0 +1,124 @@
+fun main() {
+    val morningNotification = 51
+    val eveningNotification = 135
+    
+    printNotificationSummary(morningNotification)
+    printNotificationSummary(eveningNotification)
+    
+    val child = 5
+    val adult = 28
+    val senior = 87
+    
+    val isMonday = true
+    
+    println("\n\nThe movie ticket price for a person aged $child is \$${ticketPrice(child, isMonday)}.")
+    println("The movie ticket price for a person aged $adult is \$${ticketPrice(adult, isMonday)}.")
+    println("The movie ticket price for a person aged $senior is \$${ticketPrice(senior, isMonday)}.")
+        
+    
+    val celsiusFahrenheit: (Double) -> Double = { initialMeasurement ->
+		(9/5.0) * (initialMeasurement) + 32        
+    }
+    
+    val kelvinCelsius: (Double) -> Double = { initialMeasurement ->
+		initialMeasurement - 273.15 
+    }
+    
+    val fahrenheitKelvin: (Double) -> Double = { initialMeasurement ->
+		(5/9.0) * (initialMeasurement - 32) + 273.15
+    }
+    
+    printFinalTemperature(27.00, "Celsius", "Fahrenheit", celsiusFahrenheit)
+    printFinalTemperature(350.00, "Kelvin", "Celsius", kelvinCelsius)
+    printFinalTemperature(10.00, "Fahrenheit", "Kelvin", fahrenheitKelvin)
+    
+    val song = Song("Uma Música", "Joaquim", 1995, 500)
+    song.printDescription()
+    
+    
+    val amanda = Person("Amanda", 33, "play tennis", null)
+    val atiqah = Person("Atiqah", 28, "climb", amanda)
+    val marroq = Person("Marroq", 32, null, amanda)
+    val tauruq = Person("Tauruq", 32, "play videogame", marroq)
+    
+    amanda.showProfile()
+    atiqah.showProfile()
+    marroq.showProfile()
+    tauruq.showProfile()
+       
+}
+
+
+fun printNotificationSummary(numberOfMessages: Int) {
+    if (numberOfMessages >= 100)
+    	println("Your phone is blowing up! You have 99+ notifications.")
+    else
+    	println("You have ${numberOfMessages} notifications.")
+        
+}
+
+fun ticketPrice(age: Int, isMonday: Boolean): Int {
+
+     when (age) {
+        in 1..10 -> return 15
+        in 11..50 -> return 25
+        in 50..120 -> return 20
+        else -> return 30
+        
+    }
+}
+
+fun printFinalTemperature(
+    initialMeasurement: Double, 
+    initialUnit: String, 
+    finalUnit: String, 
+    conversionFormula: (Double) -> Double
+) {
+    val finalMeasurement = String.format("%.2f", conversionFormula(initialMeasurement))
+    println("\n$initialMeasurement degrees $initialUnit is $finalMeasurement degrees $finalUnit.")
+}
+
+class Song(titulo: String, artista: String, anoPublicacao: Int, contagem: Int) {
+    val titulo: String = titulo
+    val artista: String =  artista
+    val anoPublicacao: Int = anoPublicacao
+    val contagem: Int = contagem 
+    val popular: String = if(contagem > 1000) "Popular" else "Impopular"
+    
+    fun printDescription() {
+        println(String.format("\n\n%s, interpretado por %s, foi lançado em %d.", titulo, artista, anoPublicacao))
+    }
+
+}
+
+/*Name: Amanda
+Age: 33
+Likes to play tennis. Doesn't have a referrer.
+
+Name: Atiqah
+Age: 28
+Likes to climb. Has a referrer named Amanda, who likes to play tennis.*/
+
+class Person(val name: String, val age: Int, val hobby: String?, val referrer: Person?) {
+    fun showProfile() {
+        
+        var like = getLikes() + getReferrerName()
+        
+        println(String.format("\n\nName: %s \nAge: %d \n%s", name, age, like))
+    }
+    
+    fun getLikes() : String {
+        return if (hobby == null) "" else String.format("Likes to %s.", hobby)
+    }
+    
+    fun getReferrerName() : String {
+        return if (referrer == null) " Doesn't have a referrer." 
+               else String.format("Has a referrer named %s%s", referrer.name, getReferrerHobby())
+    }
+    
+    fun getReferrerHobby() : String {
+        if(referrer == null) return ""
+        
+        return if (referrer.hobby == null) ", who has no hobby." else String.format(", who likes to %s.", referrer.hobby)
+    }
+}
