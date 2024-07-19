@@ -77,11 +77,11 @@ fun printNotificationSummary(numberOfMessages: Int) {
 
 fun ticketPrice(age: Int, isMonday: Boolean): Int {
 
-     when (age) {
-        in 1..10 -> return 15
-        in 11..50 -> return 25
-        in 50..120 -> return 20
-        else -> return 30
+     return when (age) {
+        in 1..10 -> 15
+        in 11..50 -> 25
+        in 50..120 -> 20
+        else -> 30
         
     }
 }
@@ -96,12 +96,10 @@ fun printFinalTemperature(
     println("\n$initialMeasurement degrees $initialUnit is $finalMeasurement degrees $finalUnit.")
 }
 
-class Song(titulo: String, artista: String, anoPublicacao: Int, contagem: Int) {
-    val titulo: String = titulo
-    val artista: String =  artista
-    val anoPublicacao: Int = anoPublicacao
-    val contagem: Int = contagem 
-    val popular: String = if(contagem > 1000) "Popular" else "Impopular"
+class Song(val titulo: String, val artista: String, val anoPublicacao: Int, val contagem: Int) {
+
+    val popular: String 
+    	get() = if (contagem > 1000) "Popular" else "Impopular"
     
     fun printDescription() {
         println(String.format("\n\n%s, interpretado por %s, foi lançado em %d.", titulo, artista, anoPublicacao))
@@ -179,8 +177,11 @@ class FoldablePhone() : Phone(false) {
 
 class Bid(val amount: Int, val bidder: String)
 
-fun auctionPrice(bid: Bid?, minimumPrice: Int): Int {
-   val startValue = 3000
-    
-   return if(bid == null) startValue else startValue + minimumPrice
+fun auctionPrice(bid: Bid?, minimumPrice: Int): Int {   
+   return bid?.amount ?: minimumPrice
 }
+
+
+
+
+
