@@ -45,6 +45,24 @@ fun main() {
     atiqah.showProfile()
     marroq.showProfile()
     tauruq.showProfile()
+    
+    val phone = FoldablePhone()
+    print("\n\nCheck: ")
+    phone.checkPhoneScreenLight()
+    print("Turn On: ")
+    phone.switchOn()
+    print("Opens: ")
+    phone.switchFoldedOpen()
+    print("Turn On: ")
+    phone.switchOn()
+    print("Check: ")
+    phone.checkPhoneScreenLight()
+    
+    
+    val winningBid = Bid(5000, "Private Collector")
+    
+    println("\n\nItem A is sold at ${auctionPrice(winningBid, 2000)}.")
+    println("Item B is sold at ${auctionPrice(null, 3000)}.")
        
 }
 
@@ -91,13 +109,6 @@ class Song(titulo: String, artista: String, anoPublicacao: Int, contagem: Int) {
 
 }
 
-/*Name: Amanda
-Age: 33
-Likes to play tennis. Doesn't have a referrer.
-
-Name: Atiqah
-Age: 28
-Likes to climb. Has a referrer named Amanda, who likes to play tennis.*/
 
 class Person(val name: String, val age: Int, val hobby: String?, val referrer: Person?) {
     fun showProfile() {
@@ -121,4 +132,55 @@ class Person(val name: String, val age: Int, val hobby: String?, val referrer: P
         
         return if (referrer.hobby == null) ", who has no hobby." else String.format(", who likes to %s.", referrer.hobby)
     }
+}
+
+
+open class Phone(var isScreenLightOn: Boolean = false){
+    open fun switchOn() {
+        isScreenLightOn = true
+    }
+    
+    open fun switchOff() {
+        isScreenLightOn = false
+    }
+    
+    fun checkPhoneScreenLight() {
+        val phoneScreenLight = if (isScreenLightOn) "on" else "off"
+        println("The phone screen's light is $phoneScreenLight.")
+    }
+}
+
+class FoldablePhone() : Phone(false) {
+    
+    var isFolded = true
+    
+    fun switchFoldedOpen() {
+        isFolded = false
+        println("The phone is Opened!")
+    }
+    
+    fun switchFoldedClose() {
+        isFolded = true
+        println("The phone is Closed!")
+    }
+    
+    override fun switchOn() {
+        isScreenLightOn = if(isFolded) false else true
+        
+        if (isScreenLightOn) println("Screen light on!")
+        else println("The phone is folded! Open it!")
+    }
+    
+    override fun switchOff() {
+        isScreenLightOn = false
+    }
+      
+}
+
+class Bid(val amount: Int, val bidder: String)
+
+fun auctionPrice(bid: Bid?, minimumPrice: Int): Int {
+   val startValue = 3000
+    
+   return if(bid == null) startValue else startValue + minimumPrice
 }
